@@ -10,7 +10,7 @@ const preview = process.argv.includes('--check-config');
 if (!database) throw new Error('Missing D1 DB binding');
 const legacyName = 'qr-smart-link-lite-template-db';
 const priorName = database.database_name;
-const instanceKey = process.env.QR_TEMPLATE_INSTANCE_ID || process.env.GITHUB_REPOSITORY || '';
+const instanceKey = process.env.QR_TEMPLATE_INSTANCE_ID || '';
 if (instanceKey && !/^[a-zA-Z0-9_.\/-]{3,160}$/.test(instanceKey)) throw new Error('Invalid instance identity');
 const computedName = instanceKey ? 'qrsl-' + createHash('sha256').update(instanceKey).digest('hex').slice(0, 20) + '-template-db' : '';
 const name = instanceKey ? computedName : priorName;
