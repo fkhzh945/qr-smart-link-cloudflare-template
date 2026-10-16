@@ -88,3 +88,9 @@ The public activation pages, administrator interface, feedback messages, and Ele
 ## Vercel free deployment feasibility
 
 Vercel Hobby + Neon Free is a potential route for **personal, non-commercial testing only**. This Cloudflare Workers/D1 backend has **not** yet been ported to Vercel and is not a working one-click Vercel deployment. Vercel Hobby disallows commercial usage; business installations should continue using the Cloudflare option or a suitable paid plan. See the [Vercel feasibility and migration checklist](docs/VERCEL_FREE_DEPLOY_FEASIBILITY.md).
+
+## Updates and D1 isolation
+
+Installations with a separate GitHub repository can run **Check upstream application updates** under Actions (also checks weekly). Review the update pull request and merge only after testing. Application updates do not replace Wrangler configuration or runtime secrets.
+
+For separate installations under one Cloudflare account, give each **new** deployment a unique, permanently fixed build environment variable `QR_TEMPLATE_INSTANCE_ID`. Legacy deployments should keep the original database binding. See [Controlled upgrades and D1 isolation](docs/UPDATES_AND_DATABASE_ISOLATION.md) for important caveats.
