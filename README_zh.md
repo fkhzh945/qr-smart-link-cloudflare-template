@@ -24,19 +24,15 @@ Cloudflare 页面有时默认填写 `npx wrangler deploy`，**不能直接沿用
 
 脚本查找或创建当前账户内名为 `qr-smart-link-lite-template-db` 的 D1，填入真实数据库 ID，应用迁移后发布 Worker；不会使用原生产项目的数据库 ID。**同一 Cloudflare 账户内多个此模板实例默认会共用同名 D1；如需客户间数据隔离，推荐不同 Cloudflare 账户，不要误认为换 Worker 名就完成隔离。**
 
-### 2. 配置运行期密钥
+### 2. 只配置一个 Setup Token
 
-部署后在**刚创建的 Worker** → Settings → Variables and Secrets 添加以下三个 **Secret（加密）**。如果 Cloudflare 的官方部署向导已提示输入这些值，且确认它们已写入运行环境，就无需重复添加。
+首次安装只需要部署者在 Cloudflare 的可信安装向导（若提供该字段）或新 Worker → Settings → Variables and Secrets 中配置 **`SETUP_TOKEN`**，类型为 Secret（加密）。使用独立强随机值，建议通过可信终端运行 `openssl rand -hex 32` 生成，私下保存，用于第一次管理员认领。不得使用示例值，也不要发送至聊天、截图或提交到 GitHub。
 
-| Secret 名称 | 要求及用途 |
-| --- | --- |
-| `SETUP_TOKEN` | 独立强随机值，建议至少 32 字符；首次管理员认领时使用 |
-| `SESSION_SECRET` | 与其他密钥不同，至少 32 字符；管理员登录会话签名 |
-| `ACTIVATION_SECRET` | 与其他密钥不同，至少 32 字符；激活码安全校验 |
+`SESSION_SECRET` 和 `ACTIVATION_SECRET` **由 `npm run deploy` 在发布 Worker 后自动生成并写入运行期 Secret**。它根据部署成功日志确认实际 Worker 名称，已有值保持不变；如果无法确认目标或写入失败，则停止并报错，不会向猜测的 Worker 写入。
 
-使用密码学安全随机生成器，例如在可信终端运行三次 `openssl rand -hex 32`。**不得直接使用 `.dev.vars.example` 的示例值、提交密钥到 Git、发送到聊天或贴到截图里。** 后续重新部署不要轮换 `SESSION_SECRET` 和 `ACTIVATION_SECRET`，否则可能使登录会话或已发放的激活码失效。
+**重要：** 这项自动写入需要 Cloudflare 构建凭证拥有 Worker Secrets 管理权限。部署日志中应出现 `[4/4] Installing missing runtime secrets` 以及两项 `generated and installed` 或 `preserved`，但不显示密钥值。自动化目前通过本地检查和模拟名称识别测试，**尚待在新 Cloudflare 实例端到端验证**。如云端权限不足，需先配置构建凭证权限或由部署者在 Cloudflare 后台手动配置，不能认为已经成功。
 
-普通部署目前**尚未自动生成这三个 Secret**。仓库中的 `npm run setup:secrets` 是需要明确目标 Worker 和双重确认的可选高级命令，只补齐后两个运行密钥；不自动生成 `SETUP_TOKEN`，也未集成进 `npm run deploy`。
+常规更新**不要重设运行密钥**：这可能令登录会话失效或使已发放的激活码无法验证。系统保持 Setup Token 管理员认领验证，不开放首访注册管理员。
 
 ### 3. 创建管理员
 
@@ -86,4 +82,4 @@ npm run build
 
 2026-10-16 已由用户确认：**独立 Cloudflare 实例部署、管理员初始化及二维码业务闭环验收通过**；在线实例为 [qr-smart-link-cloudflare.myqrcode.workers.dev](https://qr-smart-link-cloudflare.myqrcode.workers.dev/)。此结论针对已测试实例，不代表不同账户及全部安装入口都已零配置验证。
 
-当前仍需人工核对部署命令及配置安全密钥；“完全零配置一键安装”“免 Token 安全认领”尚未完成。原有生产项目与私有开发仓库均不属于本公开模板。
+当前仍需人工核对部署命令及配置一个 Setup Token；“完全零配置一键安装”“免 Token 安全认领”尚未完成。原有生产项目与私有开发仓库均不属于本公开模板。
