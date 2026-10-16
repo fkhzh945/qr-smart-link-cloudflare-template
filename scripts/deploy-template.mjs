@@ -24,7 +24,7 @@ let matches = list().filter(item => item.name === name);
 if (matches.length > 1) throw new Error('Ambiguous D1 database name; refusing deployment');
 if (matches.length === 0) {
   console.log('Creating isolated D1 database:', name);
-  wrangler(['d1', 'create', name]);
+  wrangler(['d1', 'create', name, '--update-config=false']);
   matches = list().filter(item => item.name === name);
 }
 const id = matches[0]?.uuid ?? matches[0]?.id;
