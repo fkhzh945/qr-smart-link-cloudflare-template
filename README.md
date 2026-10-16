@@ -6,6 +6,8 @@ Self-hosted dynamic QR code management, including QR batch printing, mobile acti
 
 ## Deploy to Cloudflare
 
+**Deployment acceptance checklist:** [V0.2 RC deployment verification](docs/DEPLOYMENT_ACCEPTANCE_V0.2_RC.md). Cloudflare may default to `npx wrangler deploy`; check that **Deploy command is `npm run deploy`** before clicking Deploy.
+
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/fkhzh945/qr-smart-link-cloudflare-template)
 
 This public repository is a dedicated deployment template. The original application development repository remains private.
