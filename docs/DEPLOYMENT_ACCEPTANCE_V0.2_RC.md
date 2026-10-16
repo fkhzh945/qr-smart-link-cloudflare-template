@@ -54,3 +54,18 @@
 - 由于 Cloudflare Builds 可能覆盖 Worker 名称，执行该命令前必须确认 Wrangler 当前指向的 Worker 与实际上线项目一致。否则应直接在 Cloudflare 控制台的目标 Worker 中检查。
 - **不会在自动部署期间随机轮换安全密钥**；重复部署必须保留已有 `SESSION_SECRET`、`ACTIVATION_SECRET`，否则可能导致登录会话失效、已发行激活码无法验证。
 - 初始化 Token 依旧由部署者在 Cloudflare Secret 中设置，管理员必须提供正确 Token。当前没有经过验证的无 Token 安全认领机制，故不移除该安全要求。
+
+## 可选：自动补齐运行期密钥（受保护模式）
+
+新增 `npm run setup:secrets`。该命令只补齐两个独立的随机运行密钥（`SESSION_SECRET`、`ACTIVATION_SECRET`），绝不覆盖已有值或把值打印到日志。执行前必须由部署管理员在**可信本地终端或受保护 CI 环境**中设置：
+
+- `QR_TEMPLATE_WORKER_NAME`：准确的目标 Worker 名称
+- `QR_TEMPLATE_CONFIRM_PROVISION`：再次填写同一个名称，明确授权向这个 Worker 写 Secret
+
+如果没有同时提供两项，脚本立即拒绝执行。部署环境必须有 Cloudflare Worker Secret 修改权限。**不要把这两个变量当作 Secret 值，也不要把真正的密钥写入 Git。**
+
+特别注意：该命令**没有自动纳入**公开模板的普通 `npm run deploy`。Cloudflare 构建系统可能重写 Worker 名称，为防止误修改其他 Worker，必须先验证目标名称与授权。在用户已成功初始化的现有部署上不要为了测试而运行它。
+
+`SETUP_TOKEN` 依旧需要在已认证的 Cloudflare 控制台内配置，直到完成安全的部署者认领凭证交付。现阶段没有实现免 Token 的账户所有者身份认证。
+
+验证情况：JavaScript 检查、业务自动化测试通过；在没有目标授权时会按预期拒绝执行，未对线上实例执行 Secret 修改。
