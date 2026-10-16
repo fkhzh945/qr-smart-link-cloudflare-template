@@ -83,3 +83,7 @@ npm run build
 2026-10-16 已由用户确认：**独立 Cloudflare 实例部署、管理员初始化及二维码业务闭环验收通过**；在线实例为 [qr-smart-link-cloudflare.myqrcode.workers.dev](https://qr-smart-link-cloudflare.myqrcode.workers.dev/)。此结论针对已测试实例，不代表不同账户及全部安装入口都已零配置验证。
 
 当前仍需人工核对部署命令及配置一个 Setup Token；“完全零配置一键安装”“免 Token 安全认领”尚未完成。原有生产项目与私有开发仓库均不属于本公开模板。
+
+## 界面语言
+
+自助激活页、管理员后台、操作反馈与 Element Plus 组件现支持 **10 种语言**：简体中文、英语、葡萄牙语、法语、德语、意大利语、日语、韩语、荷兰语、西班牙语。首次访问可根据浏览器语言自动选择，也可手动切换；选择会保存在当前浏览器中。
