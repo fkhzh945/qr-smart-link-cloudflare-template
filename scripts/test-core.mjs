@@ -180,5 +180,3 @@ for(let i=0;i<5;i++)assert.equal((await json('/api/auth/login',{email:'admin@tes
 assert.equal((await json('/api/auth/login',{email:'admin@test.com',password:'strongpassword123'})).status,429);
 console.log('Security regression: protected fields, activation throttling and login lock passed.');
 console.log('Auth, QR batches, ZIP, admin-issued activation codes, self-service activation and redirect tests passed.');
-
-[executed on device: LAPTOP-96QI0EC3 (2df899ff-6916-4249-9617-10636bdf2880)]
