@@ -80,3 +80,7 @@ See [Deployment acceptance and troubleshooting](docs/DEPLOYMENT_ACCEPTANCE_V0.2_
 As of 2026-10-16, the user confirmed **a successful deployment, administrator initialization and QR activation/redirect business acceptance** on the independent instance [qr-smart-link-cloudflare.myqrcode.workers.dev](https://qr-smart-link-cloudflare.myqrcode.workers.dev/). This does not imply zero-configuration verification across all Cloudflare accounts or installer routes.
 
 Cloudflare's default deploy command may still require manual replacement, and the owner must configure the Setup Token. Fully unattended install and owner-only passwordless claim have **not** been implemented. The original private development repository and production instance remain separate.
+
+## Interface languages
+
+The public activation pages, administrator interface, feedback messages, and Element Plus controls support **10 languages**: Simplified Chinese, English, Portuguese, French, German, Italian, Japanese, Korean, Dutch, and Spanish. Language preferences are saved in the browser and browser language is detected on first visit.
