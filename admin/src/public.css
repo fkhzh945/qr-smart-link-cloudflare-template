@@ -16,5 +16,3 @@
 .activate-button{width:100%;height:48px;background:#108b82;border-color:#108b82;margin:12px 0 16px;font-weight:700}
 .activate-button:hover{background:#0b746c;border-color:#0b746c}
 @media(max-width:800px){.public-main{grid-template-columns:1fr;gap:28px;margin:25px auto}.public-header{padding:18px;gap:12px}.public-form{padding:25px}.public-info h1{font-size:35px}}
-
-[executed on device: LAPTOP-96QI0EC3 (2df899ff-6916-4249-9617-10636bdf2880)]
