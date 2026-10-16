@@ -23,6 +23,15 @@
 
 Cloudflare Analytics 用量监控为**可选配置**，不影响二维码业务。未配置只读 Token 时，真实用量显示不可用。
 
+
+### 管理员安全认领（安装向导）
+
+Cloudflare 官方 Deploy to Cloudflare 向导可以依据 `.dev.vars.example` 和 `package.json` 的字段说明提示配置运行期 Secret。首次部署时，优先在该**已登录 Cloudflare 的向导中**设置三个不同的强随机密钥。如果当前“通过 GitHub 导入”界面没有展示 Secret 输入项，则在部署完成后进入目标 Worker → Settings → Variables and Secrets 设置；两种入口不一定相同。
+
+**重要：Cloudflare 登录身份不会自动传递给公开 Worker 页面。** 部署者必须私下保存 `SETUP_TOKEN`，然后在首次管理员初始化界面输入。不能直接允许第一个访问网站的人认领；目前也没有实现无需凭证的自动认领。
+
+更新或重复部署**不要重新生成** `SESSION_SECRET`、`ACTIVATION_SECRET`；模板提供的 `setup:secrets` 是受保护的可选手工命令，不能当作普通向导默认操作。部署脚本本身不输出任何密钥。
+
 ## 技术测试
 
 ```bash
