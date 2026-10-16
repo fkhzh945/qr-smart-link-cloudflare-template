@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 const required = ['SETUP_TOKEN', 'SESSION_SECRET', 'ACTIVATION_SECRET'];
 const run = (args) => execFileSync(process.platform === 'win32' ? 'npx.cmd' : 'npx', ['--no-install', 'wrangler', ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit'] });
 try {
-  const output = run(['secret', 'list', '--format', 'json']);
+  const output = run(['secret', 'list']);
   const first = output.indexOf('[');
   const last = output.lastIndexOf(']');
   if (first === -1 || last < first) throw new Error('Secret names unavailable');
