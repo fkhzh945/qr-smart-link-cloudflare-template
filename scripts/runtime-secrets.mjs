@@ -15,9 +15,9 @@ export function workerNameFromDeployOutput(output) {
   if (found.length !== 1) throw new Error('Could not uniquely identify deployed Worker; refusing to write secrets');
   return found[0];
 }
-export function ensureRuntimeSecrets(name) {
+export function ensureRuntimeSecrets(name, run = wrangler) {
   if (!/^[a-z0-9][a-z0-9-]{1,61}$/.test(name)) throw new Error('Invalid Worker name');
-  const raw = wrangler(['secret', 'list', '--name', name]);
+  const raw = run(['secret', 'list', '--name', name]);
   const first = raw.indexOf('['), last = raw.lastIndexOf(']');
   if (first < 0 || last < first) throw new Error('Cannot parse Worker secrets; refusing to write');
   const list = JSON.parse(raw.slice(first, last + 1));
@@ -31,7 +31,7 @@ export function ensureRuntimeSecrets(name) {
       continue;
     }
     const value = randomBytes(48).toString('base64url') + '\n';
-    wrangler(['secret', 'put', secretName, '--name', name], value);
+    run(['secret', 'put', secretName, '--name', name], value);
     console.log(secretName + ': generated and installed');
   }
 }
