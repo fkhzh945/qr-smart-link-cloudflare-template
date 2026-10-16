@@ -1,5 +1,5 @@
 {
-  "name": "qr-smart-link-lite",
+  "name": "qr-smart-link-lite-template",
   "main": "worker/src/index.js",
   "compatibility_date": "2026-09-01",
   "workers_dev": true,
@@ -18,7 +18,7 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "qr-smart-link-lite-db",
+      "database_name": "qr-smart-link-lite-template-db",
       "database_id": "00000000000000000000000000000000",
       "migrations_dir": "./migrations"
     }
