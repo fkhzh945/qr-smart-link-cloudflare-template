@@ -24,19 +24,15 @@ Cloudflare sometimes defaults to `npx wrangler deploy`. **Replace it**: the defa
 
 Deployment creates or reuses D1 `qr-smart-link-lite-template-db` within the selected Cloudflare account, sets its actual ID for that build, applies migrations and deploys the Worker. It never uses the original production database ID. **Multiple installations in the same Cloudflare account may reuse the same D1**: use distinct accounts for tenant isolation unless you explicitly customize database naming.
 
-### 2. Set runtime secrets
+### 2. Configure one Setup Token
 
-Under the **new Worker's** Settings → Variables and Secrets, configure the following three encrypted **Secret** values. If the authenticated Cloudflare install wizard already prompted for and installed them, do not add them again.
+First-time installation requires the owner to configure **only `SETUP_TOKEN`** as an encrypted Cloudflare Worker Secret, either in the authenticated installer if prompted or afterward under the new Worker's Settings → Variables and Secrets. Generate a unique random token (for example `openssl rand -hex 32` in a trusted terminal), and keep it private for the initial administrator claim. Never use placeholder values or share credentials.
 
-| Name | Purpose |
-| --- | --- |
-| `SETUP_TOKEN` | Unique cryptographic random value, ideally 32+ characters; required for the first administrator claim |
-| `SESSION_SECRET` | Different random value, at least 32 characters; signs administrator sessions |
-| `ACTIVATION_SECRET` | Another different random value, at least 32 characters; protects activation codes |
+The standard `npm run deploy` command now creates missing **`SESSION_SECRET`** and **`ACTIVATION_SECRET`** automatically after deployment. It detects the actual Worker from the successful Wrangler output and preserves both values on repeat deployments. If the target cannot be established or Cloudflare Secret permissions are missing, deployment reports an error rather than writing to an assumed Worker.
 
-For example, generate three **independent** values with `openssl rand -hex 32` in a trusted terminal. Never use sample values from `.dev.vars.example`, commit secrets, post them in support chats or expose them in screenshots. Do **not rotate** session or activation secrets on a routine redeployment; that can invalidate sessions or existing activation codes.
+The build credential must be allowed to manage Worker secrets. Look for deployment stage `[4/4] Installing missing runtime secrets` and `generated and installed` or `preserved` messages (never secret values). This flow has passed local checks and mocked Worker-name recognition but **still requires a fresh Cloudflare end-to-end acceptance run**.
 
-**These secrets are not generated automatically by the normal deploy flow yet.** Optional advanced `npm run setup:secrets` requires explicit Worker targeting and confirmation and only fills missing session/activation secrets; it does not issue the administrator Setup Token.
+Do not rotate runtime secrets during routine updates: existing sessions and issued activation codes can become invalid. The owner still must supply the Setup Token to claim the administrator account; first-visitor claims are forbidden.
 
 ### 3. Claim the first administrator
 
@@ -83,4 +79,4 @@ See [Deployment acceptance and troubleshooting](docs/DEPLOYMENT_ACCEPTANCE_V0.2_
 
 As of 2026-10-16, the user confirmed **a successful deployment, administrator initialization and QR activation/redirect business acceptance** on the independent instance [qr-smart-link-cloudflare.myqrcode.workers.dev](https://qr-smart-link-cloudflare.myqrcode.workers.dev/). This does not imply zero-configuration verification across all Cloudflare accounts or installer routes.
 
-Cloudflare's default deploy command may still require manual replacement, and secure runtime secrets still require configuration. Fully unattended install and owner-only passwordless claim have **not** been implemented. The original private development repository and production instance remain separate.
+Cloudflare's default deploy command may still require manual replacement, and the owner must configure the Setup Token. Fully unattended install and owner-only passwordless claim have **not** been implemented. The original private development repository and production instance remain separate.
