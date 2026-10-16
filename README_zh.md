@@ -91,3 +91,9 @@ npm run build
 ## Vercel 免费部署可行性
 
 已评估 Vercel Hobby + Neon Free 的**个人非商业试用**路径，但本项目的 Cloudflare D1/Worker 后端尚未完成 Vercel 适配，当前**不能一键完整部署到 Vercel**。另外 Vercel Hobby 免费版不允许商业用途；门店和企业商用继续优先使用 Cloudflare。详见 [Vercel 免费部署评审与改造清单](docs/VERCEL_FREE_DEPLOY_FEASIBILITY.md)。
+
+## 用户升级与数据库隔离
+
+公开模板已加入每周上游源码检查工作流：通过自己的 GitHub 仓库部署的用户可在 Actions 中运行 **Check upstream application updates**，收到更新 PR 后审核、测试并合并。合并后由已配置的 Cloudflare GitHub 集成部署。不会自动修改 D1 配置或 Secret。
+
+新安装在同一个 Cloudflare 账户下如需隔离多个实例，**必须**在 Cloudflare 构建环境变量设置不同且长期不变的 `QR_TEMPLATE_INSTANCE_ID`；旧安装保持默认标识以防数据库切换。没有标识的新安装仍可能复用旧库。详情见 [版本发布与安全升级说明](docs/UPDATES_AND_DATABASE_ISOLATION.md)。
