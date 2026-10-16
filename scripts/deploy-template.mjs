@@ -1,3 +1,4 @@
+import { workerNameFromDeployOutput, ensureRuntimeSecrets } from './runtime-secrets.mjs';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 
@@ -41,5 +42,9 @@ database.database_id = id;
 writeFileSync(configPath, JSON.stringify(config, null, 2) + '\n');
 console.log('[2/3] D1 database ready; applying pending migrations');
 execFileSync(process.platform === 'win32' ? 'npx.cmd' : 'npx', ['--no-install', 'wrangler', 'd1', 'migrations', 'apply', 'DB', '--remote'], { stdio: 'inherit' });
-console.log('[3/3] Publishing Worker');
-execFileSync(process.platform === 'win32' ? 'npx.cmd' : 'npx', ['--no-install', 'wrangler', 'deploy'], { stdio: 'inherit' });
+console.log('[3/4] Publishing Worker');
+const output = execFileSync(process.platform === 'win32' ? 'npx.cmd' : 'npx', ['--no-install', 'wrangler', 'deploy'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit'] });
+process.stdout.write(output);
+const deployedWorker = workerNameFromDeployOutput(output);
+console.log('[4/4] Installing missing runtime secrets for the deployed Worker');
+ensureRuntimeSecrets(deployedWorker);
