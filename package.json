@@ -28,13 +28,13 @@
   "cloudflare": {
     "bindings": {
       "SETUP_TOKEN": {
-        "description": "Set a long randomly generated setup token (16+ chars). Keep it private and enter it only in the first admin setup form."
+        "description": "Required: generate a random secret (32+ characters), remember it privately, then enter it once on the administrator initialization page. Do not use the example value."
       },
       "SESSION_SECRET": {
-        "description": "Set a unique randomly generated secret of at least 32 characters used for admin session cookies."
+        "description": "Required: a different cryptographically random secret (32+ characters). Preserve its value across updates; never use the example value."
       },
       "ACTIVATION_SECRET": {
-        "description": "Set a DIFFERENT random secret of at least 32 characters for QR activation HMAC verification."
+        "description": "Required: another distinct cryptographically random secret (32+ characters). Preserve across updates so existing activation codes remain valid."
       }
     }
   }
