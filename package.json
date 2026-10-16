@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npm run build && wrangler dev",
     "build": "npm ci --prefix admin && npm run build --prefix admin",
-    "deploy": "npm run db:migrate:remote && wrangler deploy",
+    "deploy": "node scripts/deploy-template.mjs",
     "db:migrate:local": "wrangler d1 migrations apply DB --local",
     "db:migrate:remote": "wrangler d1 migrations apply DB --remote",
     "check": "node --check worker/src/index.js && node --check worker/src/auth.js && node --check worker/src/locations.js && node --check worker/src/batches.js && node --check worker/src/qrs.js && node --check worker/src/qr-render.js && node --check worker/src/activation.js && node --check worker/src/cloudflare-usage.js",
