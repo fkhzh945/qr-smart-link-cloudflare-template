@@ -227,5 +227,3 @@ onMounted(()=>{document.title='QR Smart Link Lite';window.addEventListener('hash
  <el-dialog v-model="previewVisible" :title="t('previewDialogTitle')" width="520px" class="qr-preview-dialog" append-to-body><div v-if="previewRow" class="preview-body"><img class="preview-qr" :src="svgLink" :alt="t('previewDialogTitle')"/><div class="preview-code">{{previewRow.short_code}}</div><label class="preview-label">{{t('originalShortLink')}}</label><el-input :model-value="shortLink" readonly class="preview-link"></el-input><div class="preview-actions"><el-button type="primary" @click="copyAndOpenShortLink">{{t('copyAndOpen')}} ↗</el-button><el-button @click="previewVisible=false">{{t('closeDialog')}}</el-button></div><p class="small">{{t('previewNotice')}}</p></div></el-dialog>
  </el-config-provider>
 </template>
-
-[executed on device: LAPTOP-96QI0EC3 (2df899ff-6916-4249-9617-10636bdf2880)]
