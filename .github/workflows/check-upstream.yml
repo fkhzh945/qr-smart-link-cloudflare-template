@@ -32,6 +32,7 @@ jobs:
           git checkout -B "$BRANCH"
           git add -- admin/src worker/src migrations admin/index.html
           git commit -m "chore: synchronize upstream app code"
+          git fetch origin "$BRANCH" 2>/dev/null || true
           git push --force-with-lease origin "$BRANCH"
           if gh pr list --head "$BRANCH" --state open --json number --jq 'length' | grep -q '^0$'; then
             gh pr create --base "${GITHUB_REF_NAME}" --head "$BRANCH" \
