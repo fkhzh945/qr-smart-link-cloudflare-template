@@ -47,3 +47,10 @@
 - 实测：`npm run deploy:check`、`npm run check`、`npm test` 通过。没有在客户的已初始化实例上执行重新部署或数据库写入测试。
 - Cloudflare 创建应用向导目前仍可能默认使用 `npx wrangler deploy`。**必须核对并选择 `npm run deploy`**；这不是已解决的自动配置功能。
 - 密钥自动生成及安全管理员认领尚未完成；不得取消 Setup Token 验证，也不得在代码中内置共享密钥。
+
+## 新增：运行期密钥检查（2026-10-16）
+
+- 提供 `npm run setup:check`：通过 Wrangler 只读取当前目标 Worker 的 **Secret 名称**，提示缺少 `SETUP_TOKEN`、`SESSION_SECRET`、`ACTIVATION_SECRET` 中的哪些配置；不读取密钥值、不写入密钥。
+- 由于 Cloudflare Builds 可能覆盖 Worker 名称，执行该命令前必须确认 Wrangler 当前指向的 Worker 与实际上线项目一致。否则应直接在 Cloudflare 控制台的目标 Worker 中检查。
+- **不会在自动部署期间随机轮换安全密钥**；重复部署必须保留已有 `SESSION_SECRET`、`ACTIVATION_SECRET`，否则可能导致登录会话失效、已发行激活码无法验证。
+- 初始化 Token 依旧由部署者在 Cloudflare Secret 中设置，管理员必须提供正确 Token。当前没有经过验证的无 Token 安全认领机制，故不移除该安全要求。
