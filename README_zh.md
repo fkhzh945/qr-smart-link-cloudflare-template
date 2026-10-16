@@ -6,6 +6,8 @@
 
 ## Cloudflare 一键部署
 
+**部署收口与验收清单：** [V0.2 RC 一键部署验收指引](docs/DEPLOYMENT_ACCEPTANCE_V0.2_RC.md)。Cloudflare 可能默认填写 `npx wrangler deploy`，点击部署前务必确认 **Deploy command 为 `npm run deploy`**。
+
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/fkhzh945/qr-smart-link-cloudflare-template)
 
 本仓库是独立的公开部署模板。原有私有开发仓库不对外公开。
