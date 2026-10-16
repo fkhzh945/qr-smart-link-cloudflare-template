@@ -1,10 +1,12 @@
 import { ref, watch } from 'vue';
 import activationMessages from './activation-messages.json';
-export const languages = [{value:'zh-CN',label:'简体中文'},{value:'en',label:'English'},{value:'pt',label:'Português'}];
+import additionalLocales from './additional-locales.js';
+export const languages = [{value:'zh-CN',label:'简体中文'},{value:'en',label:'English'},{value:'pt',label:'Português'},{value:'fr',label:'Français'},{value:'de',label:'Deutsch'},{value:'it',label:'Italiano'},{value:'ja',label:'日本語'},{value:'ko',label:'한국어'},{value:'nl',label:'Nederlands'},{value:'es',label:'Español'}];
 export function detectLocale(preferred = '') {
   const input = String(preferred).toLowerCase();
   if (input.startsWith('zh')) return 'zh-CN';
   if (input.startsWith('pt')) return 'pt';
+  for (const lang of ['fr','de','it','ja','ko','nl','es']) if (input.startsWith(lang)) return lang;
   return 'en';
 }
 const baseTranslations = {
@@ -252,7 +254,7 @@ const baseTranslations = {
     "UNIQUE": "Único"
   }
 };
-export const translations = Object.fromEntries(Object.entries(baseTranslations).map(([k,v])=>[k,{...v,...activationMessages[k]}]));
+export const translations = Object.fromEntries(languages.map(({value}) => [value, {...baseTranslations.en,...activationMessages.en,...(baseTranslations[value]||{}),...(activationMessages[value]||{}),...(additionalLocales[value]||{})}]));
 function initialLocale() {
   const saved = localStorage.getItem('qr-lite-locale');
   if (saved && translations[saved]) return saved;
