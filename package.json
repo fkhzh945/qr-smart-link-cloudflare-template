@@ -29,12 +29,6 @@
     "bindings": {
       "SETUP_TOKEN": {
         "description": "Required: generate a random secret (32+ characters), remember it privately, then enter it once on the administrator initialization page. Do not use the example value."
-      },
-      "SESSION_SECRET": {
-        "description": "Required: a different cryptographically random secret (32+ characters). Preserve its value across updates; never use the example value."
-      },
-      "ACTIVATION_SECRET": {
-        "description": "Required: another distinct cryptographically random secret (32+ characters). Preserve across updates so existing activation codes remain valid."
       }
     }
   }
