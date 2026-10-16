@@ -38,3 +38,12 @@
 - P0：二维码生产 → 自助激活 → 实际跳转闭环。
 - P1：部署向导默认命令识别的兼容性改进；在没有 Cloudflare 明确保障前仍需展示“核对 Deploy command”。
 - P1：同账户多实例 D1 命名隔离、自动升级和安全依赖扫描。
+
+## 部署脚本收口更新（2026-10-16）
+
+- 新增 `npm run deploy:check`：离线核对模板 Worker 名称、唯一 D1 绑定和数据库名称；不访问或修改 Cloudflare。
+- `npm run deploy` 分成 `[1/3]` 查询/创建 D1、`[2/3]` 数据库迁移、`[3/3]` Worker 发布，方便根据日志定位故障。
+- 使用本项目已有的 Wrangler，不允许部署时从 npm 临时拉取新版本；保留同名 D1 复用机制。
+- 实测：`npm run deploy:check`、`npm run check`、`npm test` 通过。没有在客户的已初始化实例上执行重新部署或数据库写入测试。
+- Cloudflare 创建应用向导目前仍可能默认使用 `npx wrangler deploy`。**必须核对并选择 `npm run deploy`**；这不是已解决的自动配置功能。
+- 密钥自动生成及安全管理员认领尚未完成；不得取消 Setup Token 验证，也不得在代码中内置共享密钥。
