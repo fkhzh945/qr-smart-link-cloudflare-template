@@ -87,3 +87,7 @@ npm run build
 ## 界面语言
 
 自助激活页、管理员后台、操作反馈与 Element Plus 组件现支持 **10 种语言**：简体中文、英语、葡萄牙语、法语、德语、意大利语、日语、韩语、荷兰语、西班牙语。首次访问可根据浏览器语言自动选择，也可手动切换；选择会保存在当前浏览器中。
+
+## Vercel 免费部署可行性
+
+已评估 Vercel Hobby + Neon Free 的**个人非商业试用**路径，但本项目的 Cloudflare D1/Worker 后端尚未完成 Vercel 适配，当前**不能一键完整部署到 Vercel**。另外 Vercel Hobby 免费版不允许商业用途；门店和企业商用继续优先使用 Cloudflare。详见 [Vercel 免费部署评审与改造清单](docs/VERCEL_FREE_DEPLOY_FEASIBILITY.md)。
