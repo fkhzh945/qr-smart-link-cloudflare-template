@@ -7,7 +7,7 @@ function wrangler(args, input) {
     input, encoding: 'utf8', maxBuffer: 2 * 1024 * 1024,
     stdio: ['pipe', 'pipe', 'pipe']
   });
-  if (result.status !== 0) throw new Error('Worker secret operation failed; verify Cloudflare build permissions');
+  if (result.error || result.status !== 0) throw new Error('Worker secret operation failed; verify Cloudflare build permissions');
   return result.stdout;
 }
 export function workerNameFromDeployOutput(output) {
@@ -23,6 +23,7 @@ export function ensureRuntimeSecrets(name) {
   const list = JSON.parse(raw.slice(first, last + 1));
   if (!Array.isArray(list) || list.some(s => typeof s.name !== 'string')) throw new Error('Unexpected Worker secret response');
   const names = new Set(list.map(s => s.name));
+  // Never overwrite a configured secret: changing activation signing keys can break issued codes.
   if (!names.has('SETUP_TOKEN')) console.warn('ACTION REQUIRED: set SETUP_TOKEN once in Worker runtime Secrets before administrator initialization.');
   for (const secretName of ['SESSION_SECRET', 'ACTIVATION_SECRET']) {
     if (names.has(secretName)) {
