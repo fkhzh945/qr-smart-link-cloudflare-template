@@ -15,8 +15,8 @@ This public repository is a dedicated deployment template. The original applicat
 1. Have a Cloudflare account and connect GitHub to Cloudflare's deployment workflow.
 2. Prepare three **different** randomly generated secrets. Use `openssl rand -hex 32` (three times) or another cryptographically secure generator.
 3. In Cloudflare's deployment configuration, set `SETUP_TOKEN` (16+ characters), `SESSION_SECRET` (32+ characters), and `ACTIVATION_SECRET` (32+ characters). Never publish their values.
-4. Confirm that Cloudflare provisions a **new D1 database** for this app. The zero-filled database ID in `wrangler.jsonc` is a template placeholder, not a production database ID.
-5. Confirm the commands: **Build** `npm run build`; **Deploy** `npm run deploy`. The deploy script runs pending D1 migrations before deploying the Worker.
+4. The deploy script creates or finds an **isolated template D1 database** named `qr-smart-link-lite-template-db` in your Cloudflare account and replaces the placeholder ID before migrations. D1 create/list/write permissions are needed for the Cloudflare build credential.
+5. Set **Build** to `npm run build` and **Deploy** to `npm run deploy`. Deployment prepares the template D1 binding, applies migrations, then publishes the Worker.
 6. Open the new `workers.dev` URL and visit `/#/admin`. Initialize the administrator with your `SETUP_TOKEN`, email and a 12–128 character password. Keep this token private. It cannot be replaced by the admin password.
 
 The Cloudflare Analytics quota dashboard is **optional**: it works without an Analytics token, but live statistics remain unavailable until the owner configures a read-only Analytics API token.
