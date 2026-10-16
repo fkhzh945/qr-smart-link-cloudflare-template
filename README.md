@@ -84,3 +84,7 @@ Cloudflare's default deploy command may still require manual replacement, and th
 ## Interface languages
 
 The public activation pages, administrator interface, feedback messages, and Element Plus controls support **10 languages**: Simplified Chinese, English, Portuguese, French, German, Italian, Japanese, Korean, Dutch, and Spanish. Language preferences are saved in the browser and browser language is detected on first visit.
+
+## Vercel free deployment feasibility
+
+Vercel Hobby + Neon Free is a potential route for **personal, non-commercial testing only**. This Cloudflare Workers/D1 backend has **not** yet been ported to Vercel and is not a working one-click Vercel deployment. Vercel Hobby disallows commercial usage; business installations should continue using the Cloudflare option or a suitable paid plan. See the [Vercel feasibility and migration checklist](docs/VERCEL_FREE_DEPLOY_FEASIBILITY.md).
