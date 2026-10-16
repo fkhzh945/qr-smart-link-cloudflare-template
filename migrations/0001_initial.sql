@@ -1,0 +1,48 @@
+-- QR Smart Link Lite V0.1
+-- All schema must be applied before first admin initialization.
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email TEXT NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS app_settings (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS locations (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE,
+  remark TEXT,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS qr_batches (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  batch_code TEXT NOT NULL UNIQUE,
+  batch_name TEXT NOT NULL,
+  quantity INTEGER NOT NULL CHECK (quantity BETWEEN 1 AND 1000),
+  qr_mode TEXT NOT NULL CHECK (qr_mode IN ('SHARED','UNIQUE')),
+  production_status TEXT NOT NULL DEFAULT 'CREATED'
+    CHECK (production_status IN ('CREATED','EXPORTED','PRINTED','SHIPPED')),
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS qr_codes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  batch_id INTEGER NOT NULL REFERENCES qr_batches(id),
+  short_code TEXT NOT NULL UNIQUE,
+  location_id INTEGER REFERENCES locations(id),
+  target_type TEXT,
+  target_url TEXT,
+  status TEXT NOT NULL DEFAULT 'PENDING'
+    CHECK (status IN ('PENDING','ACTIVE','DISABLED')),
+  activated_at TEXT,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_qr_codes_batch_id ON qr_codes(batch_id);
+CREATE INDEX IF NOT EXISTS idx_qr_codes_location_id ON qr_codes(location_id);
+CREATE INDEX IF NOT EXISTS idx_qr_codes_status ON qr_codes(status);

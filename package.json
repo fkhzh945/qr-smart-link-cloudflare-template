@@ -1,0 +1,38 @@
+{
+  "name": "qr-smart-link-lite",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build && wrangler dev",
+    "build": "npm ci --prefix admin && npm run build --prefix admin",
+    "deploy": "npm run db:migrate:remote && wrangler deploy",
+    "db:migrate:local": "wrangler d1 migrations apply DB --local",
+    "db:migrate:remote": "wrangler d1 migrations apply DB --remote",
+    "check": "node --check worker/src/index.js && node --check worker/src/auth.js && node --check worker/src/locations.js && node --check worker/src/batches.js && node --check worker/src/qrs.js && node --check worker/src/qr-render.js && node --check worker/src/activation.js && node --check worker/src/cloudflare-usage.js",
+    "test": "node scripts/test-core.mjs"
+  },
+  "dependencies": {
+    "hono": "4.9.8",
+    "bcryptjs": "3.0.2",
+    "jose": "6.1.0",
+    "qrcode-svg": "1.1.0",
+    "jszip": "3.10.1"
+  },
+  "devDependencies": {
+    "wrangler": "4.131.0"
+  },
+  "cloudflare": {
+    "bindings": {
+      "SETUP_TOKEN": {
+        "description": "Set a long randomly generated setup token (16+ chars). Keep it private and enter it only in the first admin setup form."
+      },
+      "SESSION_SECRET": {
+        "description": "Set a unique randomly generated secret of at least 32 characters used for admin session cookies."
+      },
+      "ACTIVATION_SECRET": {
+        "description": "Set a DIFFERENT random secret of at least 32 characters for QR activation HMAC verification."
+      }
+    }
+  }
+}

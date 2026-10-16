@@ -1,0 +1,20 @@
+.activation-success{margin-top:24px;padding:30px 20px;border-radius:16px;background:#e7f8f3;border:1px solid #9bdccc;text-align:center;color:#176153;display:flex;flex-direction:column;gap:12px;align-items:center}
+.activation-success strong{font-size:23px}
+.activation-success p{font-size:14px;line-height:1.8;margin:0}
+.success-icon{display:grid;place-items:center;border-radius:50%;background:#0f8f7c;color:white;width:58px;height:58px;font-size:30px}
+.success-reset{background:white;color:#176153;border:1px solid #b7ddd3;border-radius:8px;padding:11px 20px;cursor:pointer;font-weight:700}
+.layout{max-width:1360px;margin:24px auto;min-height:calc(100vh - 48px);background:#f7f9fc;border:1px solid #e5ebf3;border-radius:20px;padding:28px 32px;box-shadow:0 18px 50px rgba(25,51,84,.08);box-sizing:border-box}
+.layout .top h2{font-size:25px;letter-spacing:-.6px;margin:0 0 8px}
+.layout .top{padding:6px 0 16px;border-bottom:1px solid #e5ebf3}
+.layout .nav{margin-top:16px;border:1px solid #e7edf4;border-radius:12px;overflow:hidden;box-shadow:0 3px 8px rgba(25,51,84,.03)}
+.layout h3{font-size:20px;margin:22px 0}
+.layout .metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:24px}
+.layout .metric{min-width:0;border:1px solid #e4edf4;box-shadow:0 8px 22px rgba(18,54,92,.04);border-radius:14px;padding:20px}
+.layout .metric strong{font-size:30px;padding-top:12px;color:#145e79}
+.layout .el-table{border:1px solid #e7edf4;border-radius:12px;overflow:hidden}
+.layout .el-table th.el-table__cell{background:#f1f6fb;color:#40566f;font-weight:700}
+.layout .el-table .el-table__cell{padding:12px 0}
+.layout .el-button--primary{background:#167c91;border-color:#167c91}
+.layout .el-button--primary:hover{background:#116c7e;border-color:#116c7e}
+.pagination-row{display:flex;justify-content:flex-end;margin:18px 0 8px}
+@media(max-width:850px){.layout{padding:16px;border-radius:12px}.layout .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.layout .top{flex-wrap:wrap;gap:12px}.layout .line{gap:7px}.layout .el-table{width:100%}}

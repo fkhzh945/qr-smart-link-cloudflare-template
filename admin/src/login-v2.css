@@ -1,0 +1,15 @@
+.login-card{max-width:430px!important;margin:8vh auto!important;padding:36px 38px!important;border:1px solid #dce8ed;border-radius:20px!important;box-shadow:0 24px 65px rgba(13,60,83,.12)!important;background:linear-gradient(150deg,#ffffff,#f9fcfd)!important}
+.login-decoration{display:flex;gap:12px;align-items:center;font-size:12px;letter-spacing:.15em;color:#118a86;font-weight:800;margin-bottom:22px}
+.login-symbol{background:#e0f5f0;color:#0e8a7a;border-radius:12px;width:46px;height:46px;display:grid;place-items:center;font-size:29px}
+.login-card h2{margin:12px 0 8px;font-size:27px;letter-spacing:-.03em;color:#1c3346}
+.login-card>.small{display:block;margin-bottom:28px;line-height:1.65}
+.login-card .el-form-item__label{font-weight:650;color:#365167}
+.login-card .el-input__wrapper{min-height:45px;border-radius:9px}
+.login-card .login-submit{height:46px;border-radius:9px;background:#12897e;border-color:#12897e;font-weight:700;margin-top:6px}
+.login-card .login-submit:hover{background:#0e786e;border-color:#0e786e}
+.login-back{display:block;margin:15px auto 0!important;color:#547286!important}
+.admin-shell .el-table .cell{overflow:hidden}
+.admin-shell .el-table .el-button.is-text{padding:5px 7px}
+@media(max-width:600px){.login-card{margin:20px 14px!important;padding:25px!important}}
+
+[executed on device: LAPTOP-96QI0EC3 (2df899ff-6916-4249-9617-10636bdf2880)]

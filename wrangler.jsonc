@@ -1,0 +1,28 @@
+{
+  "name": "qr-smart-link-lite",
+  "main": "worker/src/index.js",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./admin/dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": [
+      "/",
+      "/api/*",
+      "/q/*",
+      "/public/*",
+      "/health*"
+    ]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "qr-smart-link-lite-db",
+      "database_id": "00000000000000000000000000000000",
+      "migrations_dir": "./migrations"
+    }
+  ]
+}
+
+[executed on device: LAPTOP-96QI0EC3 (2df899ff-6916-4249-9617-10636bdf2880)]

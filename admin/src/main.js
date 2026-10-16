@@ -1,0 +1,15 @@
+import { createApp } from 'vue';
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css';
+import App from './App.vue';
+import './style.css';
+import './public.css';
+import './activation-steps.css';
+import './polish.css';
+import './admin-v2.css';
+import './preview.css';
+import './login-v2.css';
+import './mobile-activation.css';
+import './activation-errors.css';
+import './quota.css';
+createApp(App).use(ElementPlus).mount('#app');

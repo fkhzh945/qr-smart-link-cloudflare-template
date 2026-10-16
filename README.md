@@ -6,9 +6,9 @@ Self-hosted dynamic QR code management, including QR batch printing, mobile acti
 
 ## Deploy to Cloudflare
 
-The button below becomes available **after this template is published as a public GitHub repository**. The original application repository is private and should not be used as the public deployment source.
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/fkhzh945/qr-smart-link-cloudflare-template)
 
-Cloudflare's official deployment service: https://deploy.workers.cloudflare.com/
+This public repository is a dedicated deployment template. The original application development repository remains private.
 
 ### Before deploying
 
