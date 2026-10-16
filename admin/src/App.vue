@@ -3,9 +3,16 @@ import { ref, onMounted, computed } from 'vue';
 import zhCn from 'element-plus/es/locale/lang/zh-cn.mjs';
 import en from 'element-plus/es/locale/lang/en.mjs';
 import pt from 'element-plus/es/locale/lang/pt.mjs';
+import fr from 'element-plus/es/locale/lang/fr.mjs';
+import de from 'element-plus/es/locale/lang/de.mjs';
+import it from 'element-plus/es/locale/lang/it.mjs';
+import ja from 'element-plus/es/locale/lang/ja.mjs';
+import ko from 'element-plus/es/locale/lang/ko.mjs';
+import nl from 'element-plus/es/locale/lang/nl.mjs';
+import es from 'element-plus/es/locale/lang/es.mjs';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { locale, languages, t } from './i18n.js';
-const elementLocale=computed(()=>({'zh-CN':zhCn,en,pt})[locale.value]||en);
+const elementLocale=computed(()=>({'zh-CN':zhCn,en,pt,fr,de,it,ja,ko,nl,es})[locale.value]||en);
 const view=ref(window.location.hash.startsWith('#/admin')?'loading':'public'),tab=ref('home'),loading=ref(false);
 const previewVisible=ref(false),previewRow=ref(null);
 const passwordDialog=ref(false),oldPassword=ref(''),newPassword=ref(''),repeatPassword=ref(''),passwordBusy=ref(false);
@@ -29,7 +36,7 @@ const user=ref(null),stats=ref({}),batches=ref([]),qrs=ref([]),locations=ref([])
 const cfUsage=ref(null),cfUsageLoading=ref(false);
 async function refreshCloudflareUsage(){cfUsageLoading.value=true;try{cfUsage.value=await request('/api/cloudflare/usage');}catch{cfUsage.value={configured:false,errors:['UNAVAILABLE']};}finally{cfUsageLoading.value=false;}}
 const quotaItems=computed(()=>[{key:'workersRequests',title:'quotaWorkers',limit:'100,000',unit:'quotaRequestsUnit'},{key:'d1RowsRead',title:'quotaD1Reads',limit:'5,000,000',unit:'quotaRowsUnit'},{key:'d1RowsWritten',title:'quotaD1Writes',limit:'100,000',unit:'quotaRowsUnit'},{key:'d1StorageBytes',title:'quotaD1Storage',limit:'5 GB',unit:'quotaTotalUnit'}]);
-const fmtUsage=n=>typeof n==='number'?new Intl.NumberFormat(locale.value==='zh-CN'?'zh-CN':locale.value==='pt'?'pt-PT':'en-US').format(n):'—';
+const fmtUsage=n=>typeof n==='number'?new Intl.NumberFormat(locale.value==='zh-CN'?'zh-CN':locale.value==='pt'?'pt-PT':locale.value==='en'?'en-US':locale.value).format(n):'—';
 const batchName=ref(''),quantity=ref(10),qrMode=ref('UNIQUE');
 const locationName=ref(''),locationRemark=ref('');
 const selected=ref([]),locationId=ref(null),targetUrl=ref(''),targetType=ref('Website');
