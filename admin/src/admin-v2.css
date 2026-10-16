@@ -25,3 +25,5 @@ body{background:#eef2f6}
 .pagination-row{display:flex;justify-content:flex-end;align-items:center;background:white;border:1px solid #e0e8ef;border-radius:0 0 12px 12px;padding:17px;margin:-1px 0 20px;min-height:38px}
 .admin-shell .el-pagination{--el-pagination-button-bg-color:#f0f6fa}
 @media(max-width:850px){.admin-shell{margin:0;width:100%;border-radius:0;padding:12px}.admin-toolbar{flex-wrap:wrap;padding:12px}.admin-shell .top{flex-wrap:wrap}.admin-shell .nav .el-menu-item{min-width:auto;padding:0 12px}.table-search{flex-wrap:wrap}.pagination-row{overflow-x:auto;justify-content:flex-start}}
+
+[executed on device: LAPTOP-96QI0EC3 (2df899ff-6916-4249-9617-10636bdf2880)]

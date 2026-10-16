@@ -50,3 +50,5 @@ export function registerQrs(app) {
     return respond(c,{ok:true});
   });
 }
+
+[executed on device: LAPTOP-96QI0EC3 (2df899ff-6916-4249-9617-10636bdf2880)]
