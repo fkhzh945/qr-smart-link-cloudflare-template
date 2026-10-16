@@ -23,6 +23,13 @@ This public repository is a dedicated deployment template. The original applicat
 
 The Cloudflare Analytics quota dashboard is **optional**: it works without an Analytics token, but live statistics remain unavailable until the owner configures a read-only Analytics API token.
 
+
+### Secure administrator claim during installation
+
+The official Deploy to Cloudflare flow can prompt for Worker secrets using `.dev.vars.example` and binding descriptions in `package.json`. Prefer entering three different, cryptographically random secrets in the **authenticated Cloudflare installer** if prompted. If importing the GitHub repository directly does not show secret inputs, configure them afterward under the target Worker's Settings → Variables and Secrets.
+
+**Cloudflare login identity is not automatically forwarded to the public Worker website.** Keep your private `SETUP_TOKEN` and enter it once when creating the administrator account. Never enable first-visitor-claims-admin. Preserve `SESSION_SECRET` and `ACTIVATION_SECRET` across subsequent deployments; do not rotate them on update.
+
 ## Technical validation
 
 ```bash
