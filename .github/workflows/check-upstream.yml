@@ -1,0 +1,40 @@
+name: Check upstream application updates
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 5 * * 1"
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  open-update-pr:
+    if: github.repository != 'fkhzh945/qr-smart-link-cloudflare-template'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Sync allowlisted app code
+        run: python3 scripts/sync-upstream.py
+      - name: Open reviewable upgrade pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "$(git status --porcelain -- admin/src worker/src migrations admin/index.html)" ]]; then
+            echo "Already up to date"
+            exit 0
+          fi
+          BRANCH=automated/upstream-app-update
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -B "$BRANCH"
+          git add -- admin/src worker/src migrations admin/index.html
+          git commit -m "chore: synchronize upstream app code"
+          git push --force-with-lease origin "$BRANCH"
+          if gh pr list --head "$BRANCH" --state open --json number --jq 'length' | grep -q '^0$'; then
+            gh pr create --base "${GITHUB_REF_NAME}" --head "$BRANCH" \
+              --title "Update QR Smart Link Lite application" \
+              --body "Please review and test. Only app source and migrations were synchronized. Do not replace local wrangler config, D1 bindings or Secrets. Back up D1 before migration."
+          fi
