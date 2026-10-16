@@ -9,9 +9,10 @@
     "deploy": "node scripts/deploy-template.mjs",
     "db:migrate:local": "wrangler d1 migrations apply DB --local",
     "db:migrate:remote": "wrangler d1 migrations apply DB --remote",
-    "check": "node --check worker/src/index.js && node --check worker/src/auth.js && node --check worker/src/locations.js && node --check worker/src/batches.js && node --check worker/src/qrs.js && node --check worker/src/qr-render.js && node --check worker/src/activation.js && node --check worker/src/cloudflare-usage.js && node --check scripts/deploy-template.mjs",
+    "check": "node --check worker/src/index.js && node --check worker/src/auth.js && node --check worker/src/locations.js && node --check worker/src/batches.js && node --check worker/src/qrs.js && node --check worker/src/qr-render.js && node --check worker/src/activation.js && node --check worker/src/cloudflare-usage.js && node --check scripts/deploy-template.mjs && node --check scripts/check-runtime-secrets.mjs",
     "test": "node scripts/test-core.mjs",
-    "deploy:check": "node scripts/deploy-template.mjs --check-config"
+    "deploy:check": "node scripts/deploy-template.mjs --check-config",
+    "setup:check": "node scripts/check-runtime-secrets.mjs"
   },
   "dependencies": {
     "hono": "4.9.8",
