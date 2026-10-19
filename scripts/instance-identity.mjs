@@ -4,7 +4,7 @@ export function identityFromBuildMetadata(metadata) {
   const tag = build?.trigger?.external_script_id;
   if (typeof tag !== 'string' || !/^[a-f0-9]{32}$/i.test(tag))
     throw new Error('Cloudflare build metadata contains no verified Worker tag');
-  return 'worker-tag:' + tag.toLowerCase();
+  return 'worker-tag-' + tag.toLowerCase();
 }
 export async function resolveInstanceIdentity(env, { preview = false, fetchFn = fetch } = {}) {
   const explicit = env.QR_TEMPLATE_INSTANCE_ID?.trim();
