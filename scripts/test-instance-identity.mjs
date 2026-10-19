@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import { identityFromBuildMetadata, resolveInstanceIdentity } from './instance-identity.mjs';
+const tag = '0123456789abcdef0123456789abcdef';
+assert.equal(identityFromBuildMetadata({result:{trigger:{external_script_id:tag}}}), 'worker-tag:'+tag);
+assert.throws(()=>identityFromBuildMetadata({result:{trigger:{}}}), /verified Worker tag/);
+const explicit = await resolveInstanceIdentity({QR_TEMPLATE_INSTANCE_ID:'customer-unique'});
+assert.equal(explicit.key,'customer-unique');
+assert.equal((await resolveInstanceIdentity({}, {preview:true})).key,'');
+await assert.rejects(resolveInstanceIdentity({WORKERS_CI:'1'}), /Missing Cloudflare/);
+let requestCount=0;
+const env={WORKERS_CI:'1',WORKERS_CI_BUILD_UUID:'aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaaa',CLOUDFLARE_ACCOUNT_ID:'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',CLOUDFLARE_API_TOKEN:'test-token'};
+const resolved=await resolveInstanceIdentity(env,{fetchFn:async(url,options)=>{requestCount++;assert.match(url,/builds\/builds\/aaaaaaaa/);assert.equal(options.headers.Authorization,'Bearer test-token');return {ok:true,json:async()=>({success:true,result:{trigger:{external_script_id:tag}}})};}});
+assert.equal(resolved.key,'worker-tag:'+tag);
+assert.equal(requestCount,1);
+await assert.rejects(resolveInstanceIdentity(env,{fetchFn:async()=>({ok:false,status:403})}),/HTTP 403/);
+console.log('Instance isolation identity regression tests passed.');
