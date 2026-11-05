@@ -1,6 +1,7 @@
 import { workerNameFromDeployOutput, ensureRuntimeSecrets } from './runtime-secrets.mjs';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { resolveInstanceIdentity } from './instance-identity.mjs';
 import { execFileSync } from 'node:child_process';
 
 const configPath = 'wrangler.jsonc';
@@ -10,10 +11,12 @@ const preview = process.argv.includes('--check-config');
 if (!database) throw new Error('Missing D1 DB binding');
 const legacyName = 'qr-smart-link-lite-template-db';
 const priorName = database.database_name;
-const instanceKey = process.env.QR_TEMPLATE_INSTANCE_ID || '';
+const identity = await resolveInstanceIdentity(process.env, { preview });
+const instanceKey = identity.key;
 if (instanceKey && !/^[a-zA-Z0-9_.\/-]{3,160}$/.test(instanceKey)) throw new Error('Invalid instance identity');
 const computedName = instanceKey ? 'qrsl-' + createHash('sha256').update(instanceKey).digest('hex').slice(0, 20) + '-template-db' : '';
 const name = instanceKey ? computedName : priorName;
+if (!instanceKey && process.env.WORKERS_CI && !preview) throw new Error('Cannot verify stable instance identity. Refusing shared D1: configure an authorized Workers Builds metadata API token or QR_TEMPLATE_INSTANCE_ID.');
 if (instanceKey && priorName !== legacyName && priorName !== computedName) throw new Error('D1 instance binding does not match this deployment identity');
 if (!instanceKey && priorName !== legacyName && !/^qrsl-[a-f0-9]{20}-template-db$/.test(priorName)) throw new Error('Unknown D1 database identity');
 if (!name || !name.endsWith('-template-db')) throw new Error('Refusing to provision a non-template D1 database');
@@ -36,7 +39,7 @@ function list() {
   return found;
 }
 console.log('[1/4] Checking isolated D1 database');
-if (!instanceKey) console.warn('LEGACY MODE: using the existing template database name. Set QR_TEMPLATE_INSTANCE_ID for a new isolated installation; never do so on an existing deployment.');
+if (!instanceKey) console.warn('LEGACY MODE: default database retained for compatibility. For NEW installations, require verified instance identity.');
 let matches = list().filter(item => item.name === name);
 if (matches.length > 1) throw new Error('Ambiguous D1 database name; refusing deployment');
 if (matches.length === 0) {
